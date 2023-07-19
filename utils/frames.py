@@ -10,18 +10,17 @@ class Frames:
         self.camera = Camera(parent)
 
     def create_frames(self):
-        # Example:
-        self.home_frame = customtkinter.CTkFrame(self.parent)
         # Configure and populate the home frame
+        self.home_frame = customtkinter.CTkFrame(self.parent)
 
-        self.camera_frame = customtkinter.CTkFrame(self.parent)
-        # Configure and populate the camera frame
-
-        self.second_frame = customtkinter.CTkFrame(self.parent)
         # Configure and populate the second frame
+        self.second_frame = customtkinter.CTkFrame(self.parent)
 
-        self.third_frame = customtkinter.CTkFrame(self.parent)
         # Configure and populate the third frame
+        self.third_frame = customtkinter.CTkFrame(self.parent)
+
+        # Configure and populate the camera frame
+        self.camera_frame = customtkinter.CTkFrame(self.parent)
 
     # Add any additional methods or functions as needed
     def create_navigation_frame(self):
@@ -57,33 +56,28 @@ class Frames:
                                                                 command=self.parent.change_appearance_mode_event)
         self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
 
-
-    def stop_camera(self):
-        self.camera.release_camera()
         
     def select_frame_by_name(self, name):
         # set button color for selected button
         self.home_button.configure(fg_color=("gray75", "gray25") if name == "home" else "transparent")
         self.frame_2_button.configure(fg_color=("gray75", "gray25") if name == "frame_2" else "transparent")
         self.frame_3_button.configure(fg_color=("gray75", "gray25") if name == "frame_3" else "transparent")
+        self.face_detect_submenu.configure(fg_color=("gray75", "gray25") if name == "camera_frame" else "transparent")
 
         # show selected frame
         if name == "home":
-            # self.stop_camera()
             self.camera.release_camera()
             self.home_frame.grid(row=0, column=1, sticky="nsew")
             self.second_frame.grid_forget()
             self.third_frame.grid_forget()
             self.camera_frame.grid_forget()
         elif name == "frame_2":
-            # self.stop_camera()
             self.camera.release_camera()
             self.home_frame.grid_forget()
             self.second_frame.grid(row=0, column=1, sticky="nsew")
             self.third_frame.grid_forget()
             self.camera_frame.grid_forget()
         elif name == "frame_3":
-            # self.stop_camera()
             self.camera.release_camera()
             self.home_frame.grid_forget()
             self.second_frame.grid_forget()
