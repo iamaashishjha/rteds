@@ -3,6 +3,7 @@ from utils.model import Model
 import numpy as np
 import argparse
 from utils.camera import Camera
+from utils.config import Config
 
 class Emotions:
     def __init__(self, frames):
@@ -12,8 +13,8 @@ class Emotions:
             4: "Neutral", 5: "Sad", 6: "Surprised"
         }
         self.model = Model(
-            train_dir='data/train',
-            val_dir='data/test',
+            train_dir=Config.DATA_TRAIN_DIR,
+            val_dir=Config.DATA_TEST_DIR,
             num_train=28709,
             num_val=7178,
             batch_size=64,
@@ -21,7 +22,7 @@ class Emotions:
         )
 
     def display_emotions(self):
-        self.frames.select_frame_by_name("home")  # Ensure home frame is selected
+        self.frames.select_frame_by_name("dashaord")  # Ensure home frame is selected
         self.frames.camera.start_camera()  # Start the camera
 
     def stop_camera(self):
