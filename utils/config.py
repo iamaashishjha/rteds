@@ -19,18 +19,16 @@ class Config:
     def setup_basic_configuration(self):
         BASE_GEOMETRY = "700x450"
         BASE_TITLE = "Real Time Emotion Detection System"
-        CURRENT_DIRECTORY = self.CURRENT_DIRECTORY
-        IMAGE_DIR = "assets/images"
-
-        LOGO_IMAGE_PATH = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "CustomTkinter_logo_single.png")
-        IMAGE_ICON_PATH = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "image_icon_light.png")
-        HOME_IMAGE_PATH_LIGHT = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "home_light.png")
-        CHAT_IMAGE_PATH_LIGHT = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "chat_light.png")
-        ADD_USER_IMAGE_PATH_LIGHT = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "add_user_light.png")
-        HOME_IMAGE_PATH_DARK = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "home_dark.png")
-        CHAT_IMAGE_PATH_DARK = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "chat_dark.png")
-        ADD_USER_IMAGE_PATH_DARK = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "add_user_dark.png")
-        DASHBOARD_IMAGE_PATH = os.path.join(CURRENT_DIRECTORY, IMAGE_DIR, "dashboard.jpg")
+        IMAGE_DIR = self.ASSETS_DIR + "/images"
+        LOGO_IMAGE_PATH = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "CustomTkinter_logo_single.png")
+        IMAGE_ICON_PATH = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "image_icon_light.png")
+        HOME_IMAGE_PATH_LIGHT = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "home_light.png")
+        CHAT_IMAGE_PATH_LIGHT = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "chat_light.png")
+        ADD_USER_IMAGE_PATH_LIGHT = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "add_user_light.png")
+        HOME_IMAGE_PATH_DARK = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "home_dark.png")
+        CHAT_IMAGE_PATH_DARK = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "chat_dark.png")
+        ADD_USER_IMAGE_PATH_DARK = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "add_user_dark.png")
+        DASHBOARD_IMAGE_PATH = os.path.join(self.CURRENT_DIRECTORY, IMAGE_DIR, "dashboard.jpg")
 
         self.parent.title(BASE_TITLE)
         self.parent.geometry(BASE_GEOMETRY)
