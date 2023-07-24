@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from config import Config
+# from ../emotions import Emotions
+import argparse
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D
@@ -16,6 +19,7 @@ class Model:
         self.batch_size = batch_size
         self.num_epoch = num_epoch
         self.model = None
+        self.create_model()
 
     def plot_model_history(self, model_history):
         fig, axs = plt.subplots(1, 2, figsize=(15, 5))
@@ -60,7 +64,6 @@ class Model:
 
     def create_model(self):
         model = Sequential()
-
         model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48, 48, 1)))
         model.add(Conv2D(64, kernel_size=(3, 3), activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -85,10 +88,10 @@ class Model:
 
         self.model.compile(
             loss='categorical_crossentropy',
-            optimizer=Adam(lr=0.0001, decay=1e-6),
+            optimizer=Adam(learning_rate=0.0001),
             metrics=['accuracy'])
 
-        model_info = self.model.fit_generator(
+        model_info = self.model.fit(
             train_generator,
             steps_per_epoch=self.num_train // self.num_epoch,
             epochs=self.num_epoch,
@@ -96,10 +99,37 @@ class Model:
             validation_steps=self.num_val // self.num_epoch)
 
         self.plot_model_history(model_info)
-        self.model.save_weights('model.h5')
+        self.model.save_weights(Config.MODEL_PATH)
 
     def load_model(self):
         self.create_model()
-        self.model.load_weights('model.h5')
+        # self.model.load_weights('model.h5')
+        self.model.load_weights(Config.MODEL_PATH)
 
+    def predict(self, input_data):
+        # Assuming 'input_data' is the data to be predicted, e.g., the cropped image in your case
+        predictions = self.model.predict(input_data)
+        return predictions
+
+if __name__ == "__main__":
+    # command line argument
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--mode",help="train/display")
+    mode = ap.parse_args().mode
+
+    print(mode)
+
+    # If you want to train the same model or try other models, go for this
+    if mode == "train":
+        # Paths to training and validation directories
+        train_dir = Config.DATA_TRAIN_PATH
+        val_dir = Config.DATA_TEST_PATH
+        num_train = 28709
+        num_val = 7178
+        batch_size = 64
+        num_epochs = 50
+        # Create an instance of the Model class
+        model = Model(train_dir, val_dir, num_train, num_val, batch_size, num_epochs)
+        # Train the model
+        model.train_model()
 

@@ -17,60 +17,45 @@ class Frames:
         # Configure and populate the third frame
         self.emotion_cam_frame = customtkinter.CTkFrame(self.parent)
 
-        # Configure and populate the camera frame
-        self.face_cam_frame = customtkinter.CTkFrame(self.parent)
-
-    # Add any additional methods or functions as needed
     def create_navigation_frame(self):
         self.navigation_frame = customtkinter.CTkFrame(self.parent, corner_radius=0)
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
         self.navigation_frame.grid_rowconfigure(4, weight=1)
 
         self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, text="RTEDS", image=self.parent.logo_image,
-                                                             compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+                                                            compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
 
         self.dashboard_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Dashboard",
-                                                   fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                   image=self.parent.home_image, anchor="w", command=self.parent.dashboard_button_event)
+                                                fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
+                                                image=self.parent.home_image, anchor="w", command=self.parent.dashboard_button_event)
         self.dashboard_button.grid(row=1, column=0, sticky="ew")
 
-        self.face_cam_frame_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text=" Face Camera",
-                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                      image=self.parent.chat_image, anchor="w", command=self.parent.face_cam_frame_button_event)
-        self.face_cam_frame_button.grid(row=2, column=0, sticky="ew")
         self.emotion_cam_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Emotion Camera",
-                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
-                                                      image=self.parent.add_user_image, anchor="w", command=self.parent.emotion_cam_button_event)
-        self.emotion_cam_button.grid(row=3, column=0, sticky="ew")
+                                                    fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
+                                                    image=self.parent.add_user_image, anchor="w", command=self.parent.emotion_cam_button_event)
+        self.emotion_cam_button.grid(row=2, column=0, sticky="ew")
 
-        
+        self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.navigation_frame, values=["Light", "Dark", "System"],
+                                                                command=self.parent.change_appearance_mode_event)
+        self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
+
     def select_frame_by_name(self, name):
         # set button color for selected button
         self.dashboard_button.configure(fg_color=("gray75", "gray25") if name == "dashboard" else "transparent")
-        self.face_cam_frame_button.configure(fg_color=("gray75", "gray25") if name == "face_cam_frame" else "transparent")
         self.emotion_cam_button.configure(fg_color=("gray75", "gray25") if name == "emotion_cam" else "transparent")
-        # self.face_detect_submenu.configure(fg_color=("gray75", "gray25") if name == "face_cam_frame" else "transparent")
 
         # show selected frame
         if name == "dashboard":
             self.camera.release_camera()
             self.dashboard_frame.grid(row=0, column=1, sticky="nsew")
-            self.face_cam_frame.grid_forget()
-            self.emotion_cam_frame.grid_forget()
-        elif name == "face_cam_frame":
-            self.camera.open_camera(self.camera_canvas_reference)
-            self.dashboard_frame.grid_forget()
-            self.face_cam_frame.grid(row=0, column=1, sticky="nsew")
             self.emotion_cam_frame.grid_forget()
         elif name == "emotion_cam":
-            self.camera.release_camera()
+            self.camera.open_emotion_detection_camera(self.camera_canvas_reference)
             self.dashboard_frame.grid_forget()
-            self.face_cam_frame.grid_forget()
             self.emotion_cam_frame.grid(row=0, column=1, sticky="nsew")
 
         self.current_frame_name = name
-
 
     def create_dashboard_frame(self):
         self.dashboard_frame = customtkinter.CTkFrame(self.parent, corner_radius=0, fg_color="transparent")
@@ -107,45 +92,6 @@ class Frames:
         self.dashboard_frame_text_label = customtkinter.CTkLabel(self.dashboard_frame_text_card, text="", image=self.parent.dashboard_image, font=customtkinter.CTkFont(size=14), fg_color="black", bg_color="white")
         self.dashboard_frame_text_label.pack(fill="both", expand=True)
 
-    def create_face_cam_frame(self):
-        self.face_cam_frame = customtkinter.CTkFrame(self.parent, corner_radius=0, fg_color="transparent")
-        self.face_cam_frame.grid_columnconfigure(0, weight=1)
-        self.face_cam_frame.grid_rowconfigure(0, weight=1)
-
-        self.face_cam_frame_card = customtkinter.CTkFrame(self.face_cam_frame, corner_radius=10, fg_color="lightgray")
-        self.face_cam_frame_card.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
-        self.face_cam_frame_card.grid_columnconfigure(0, weight=1)
-        self.face_cam_frame_card.grid_rowconfigure(0, weight=0)
-        self.face_cam_frame_card.grid_rowconfigure(1, weight=1)
-
-        self.face_cam_frame_heading_card = customtkinter.CTkFrame(self.face_cam_frame_card, corner_radius=0, fg_color="lightgray")
-        self.face_cam_frame_heading_card.grid(row=0, column=0, padx=20, pady=10, sticky="ew")
-
-        self.face_cam_frame_heading_label = customtkinter.CTkLabel(self.face_cam_frame_heading_card, text="Camera Frame", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.face_cam_frame_heading_label.pack()
-
-        self.face_cam_frame_text_card = customtkinter.CTkFrame(self.face_cam_frame_card, corner_radius=0, fg_color="white")
-        self.face_cam_frame_text_card.grid(row=1, column=0, padx=20, pady=10, sticky="nsew")
-
-        self.face_cam_frame_text_label = customtkinter.CTkLabel(self.face_cam_frame_text_card, text="This is the camera frame text.\nYou can add any content here.",
-                                                            font=customtkinter.CTkFont(size=14), fg_color="black", bg_color="white")
-        self.face_cam_frame_text_label.pack(fill="both", expand=True)
-
-        self.face_cam_frame_canvas = customtkinter.CTkFrame(self.face_cam_frame, corner_radius=0, fg_color="transparent")
-        self.face_cam_frame_canvas.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
-        self.face_cam_frame_canvas.grid_columnconfigure(0, weight=1)
-        self.face_cam_frame_canvas.grid_rowconfigure(0, weight=1)
-
-        self.camera_canvas = customtkinter.CTkCanvas(self.face_cam_frame_canvas)  # Remove the corner_radius option
-        self.camera_canvas.pack(fill="both", expand=True)
-
-        # Call the open_camera method of the Camera class
-        # Set the camera_canvas_reference attribute to the camera canvas
-        self.camera_canvas_reference = self.camera_canvas
-
-        # Call the open_camera method of the Camera class
-        self.camera.open_camera(self.camera_canvas)
-
     def create_emotion_cam_frame(self):
         self.emotion_cam_frame = customtkinter.CTkFrame(self.parent, corner_radius=0, fg_color="transparent")
         self.emotion_cam_frame.grid_columnconfigure(0, weight=1)
@@ -169,5 +115,20 @@ class Frames:
         self.emotion_cam_frame_text_label = customtkinter.CTkLabel(self.emotion_cam_frame_text_card, text="This is the Frame 3 text.\nYou can add any content here.",
                                                             font=customtkinter.CTkFont(size=14), fg_color="yellow", bg_color="red")
         self.emotion_cam_frame_text_label.pack(fill="both", expand=True)
+
+        self.emotion_cam_frame_canvas = customtkinter.CTkFrame(self.emotion_cam_frame, corner_radius=0, fg_color="transparent")
+        self.emotion_cam_frame_canvas.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        self.emotion_cam_frame_canvas.grid_columnconfigure(0, weight=1)
+        self.emotion_cam_frame_canvas.grid_rowconfigure(0, weight=1)
+
+        self.camera_canvas = customtkinter.CTkCanvas(self.emotion_cam_frame_canvas)  # Remove the corner_radius option
+        self.camera_canvas.pack(fill="both", expand=True)
+
+        # Set the camera_canvas_reference attribute to the camera canvas
+        self.camera_canvas_reference = self.camera_canvas
+
+        # Call the open_emotion_detection_camera method of the Camera class
+        self.camera.open_emotion_detection_camera(self.camera_canvas)
+
 
     

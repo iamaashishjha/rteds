@@ -21,9 +21,6 @@ class App(customtkinter.CTk):
         # create home frame
         self.frames.create_dashboard_frame()
 
-        # create camera frame
-        self.frames.create_face_cam_frame()
-
         # create third frame
         self.frames.create_emotion_cam_frame()
 
@@ -39,9 +36,6 @@ class App(customtkinter.CTk):
 
     def emotion_cam_button_event(self):
         self.frames.select_frame_by_name("emotion_cam")
-
-    def face_cam_frame_button_event(self):
-        self.frames.select_frame_by_name("face_cam_frame")
 
     def change_appearance_mode_event(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)

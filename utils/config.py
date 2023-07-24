@@ -3,15 +3,24 @@ import os
 from PIL import Image
 
 class Config:
-    CURRENT_DIRECTORY = os.getcwd()
-    ASSETS_DIR = "assets"
-    DATA_DIR = "data"
-    MODEL_DIR = "model"
-    DATA_TRAIN_DIR = DATA_DIR + "/train"
-    DATA_TEST_DIR = DATA_DIR + "/test"
-    # haarcascade_frontalface_default.xml
-    HAARCASCADE_FRONTALFACE_PATH = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, "haarcascade_frontalface_default.xml")
+    DATA_TRAIN_DIR = "data/train"
+    DATA_TEST_DIR = "data/test"
+    CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+    MODEL_DIR = os.path.join(os.path.dirname(CURRENT_DIRECTORY), 'model')
+    ASSETS_DIR = os.path.join(os.path.dirname(CURRENT_DIRECTORY), 'assets')
+
+
+    MODEL_PATH = os.path.join(CURRENT_DIRECTORY, MODEL_DIR, "model.h5")
+    DATA_TEST_PATH = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, DATA_TEST_DIR)
+    DATA_TRAIN_PATH = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, DATA_TRAIN_DIR)
     SAMPLE_VIDEO_PATH = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, "laughing-sample.mp4")
+    HAARCASCADE_FRONTALFACE_PATH = os.path.join(CURRENT_DIRECTORY, ASSETS_DIR, "haarcascade_frontalface_default.xml")
+
+    # print("################################################################")
+    # print("# Config #")
+    # print(DATA_TEST_PATH)
+    # print("# Config #")
+    # print("################################################################")
 
     def __init__(self, parent):
         self.parent = parent
@@ -33,6 +42,8 @@ class Config:
         self.parent.title(BASE_TITLE)
         self.parent.geometry(BASE_GEOMETRY)
 
+        self.parent.resizable(width=False, height=False)
+        
         self.parent.grid_rowconfigure(0, weight=1)
         self.parent.grid_columnconfigure(1, weight=1)
 
